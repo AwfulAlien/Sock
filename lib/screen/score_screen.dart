@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 class ScoreScreen extends StatefulWidget {
   final String player1Name;
   final String player2Name;
+  final int? maxScore;
 
-  const ScoreScreen(
-      {super.key, required this.player1Name, required this.player2Name});
+  const ScoreScreen({
+    super.key,
+    required this.player1Name,
+    required this.player2Name,
+    required this.maxScore,
+  });
 
   @override
   State<ScoreScreen> createState() => _ScoreScreenState();
@@ -15,6 +20,38 @@ class ScoreScreen extends StatefulWidget {
 class _ScoreScreenState extends State<ScoreScreen> {
   int player1Score = 0;
   int player2Score = 0;
+
+  void _checkWinner() {
+    if (player1Score >= widget.maxScore!) {
+      _showWinnerDialog(widget.player1Name);
+    } else if (player2Score >= widget.maxScore!) {
+      _showWinnerDialog(widget.player2Name);
+    }
+  }
+
+  void _showWinnerDialog(String winnerName) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return RotatedBox(
+            quarterTurns: 1,
+            child: AlertDialog(
+              title: Text('Match Over!'),
+              content: Text('$winnerName Wins!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('New Match'),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +63,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
               onTap: () {
                 setState(() {
                   player1Score++;
+                  _checkWinner();
                 });
               },
               child: Container(
@@ -56,6 +94,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
               onTap: () {
                 setState(() {
                   player2Score++;
+                  _checkWinner();
                 });
               },
               child: Container(
