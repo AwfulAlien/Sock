@@ -12,21 +12,33 @@ class PlayerEntryScreen extends StatefulWidget {
 class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
   final _player1Controller = TextEditingController();
   final _player2Controller = TextEditingController();
+  final _maxScoreController = TextEditingController();
 
   void _startMatch() {
-    if (_player1Controller.text.isEmpty && _player2Controller.text.isEmpty) {
+    if (_player1Controller.text.isEmpty &&
+        _player2Controller.text.isEmpty &&
+        _maxScoreController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please Enter both player names'),
         ),
       );
     } else {
+      int? maxScore = int.tryParse(_maxScoreController.text);
+      if (maxScore == null || maxScore <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content:
+                  Text('Please enter a valid positive number for Max Score')),
+        );
+      }
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ScoreScreen(
             player1Name: _player1Controller.text,
             player2Name: _player2Controller.text,
+            maxScore: maxScore,
           ),
         ),
       );
@@ -51,6 +63,10 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
             TextField(
               controller: _player2Controller,
               decoration: const InputDecoration(labelText: 'Player 2 Name'),
+            ),
+            TextField(
+              controller: _maxScoreController,
+              decoration: const InputDecoration(labelText: 'Max Score'),
             ),
             const SizedBox(
               height: 20,
