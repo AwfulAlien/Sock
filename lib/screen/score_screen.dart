@@ -39,7 +39,6 @@ class _ScoreScreenState extends State<ScoreScreen> {
             quarterTurns: 1,
             child: Dialog(
               shape: RoundedRectangleBorder(
-                // Rounded corners
                 borderRadius: BorderRadius.circular(16.0),
               ),
               elevation: 0,
@@ -52,7 +51,6 @@ class _ScoreScreenState extends State<ScoreScreen> {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  // Important for proper sizing
                   children: [
                     Text(
                       'Match Over!',
@@ -70,8 +68,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context); // Close the dialog
-                        Navigator.pop(context); // Return to player entry screen
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -118,7 +116,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                 decoration: BoxDecoration(
                   color: Colors.blue[200],
                   border: const Border(
-                    right: BorderSide(width: 2, color: Colors.blue),
+                    right: BorderSide(width: 7, color: Colors.blue),
                   ),
                 ),
                 child: Center(
@@ -155,11 +153,10 @@ class _ScoreScreenState extends State<ScoreScreen> {
             child: GestureDetector(
               onTap: _incrementPlayer2Score,
               child: Container(
-                // color: Colors.red[200],
                 decoration: BoxDecoration(
                   color: Colors.red[200],
                   border: const Border(
-                    left: BorderSide(width: 2, color: Colors.red),
+                    left: BorderSide(width: 7, color: Colors.red),
                   ),
                 ),
                 child: Center(
