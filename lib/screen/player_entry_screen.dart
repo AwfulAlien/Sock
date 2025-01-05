@@ -86,9 +86,10 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
             ElevatedButton(
               onPressed: _startMatch,
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                textStyle: const TextStyle(fontSize: 18),
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  textStyle: const TextStyle(fontSize: 18),
+                  backgroundColor: Colors.deepPurple,
+                  foregroundColor: Colors.white),
               child: const Text('Start Match'),
             ),
           ],

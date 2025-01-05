@@ -23,9 +23,11 @@ class _ScoreScreenState extends State<ScoreScreen> {
   List<List<int>> scoreHistory = [];
 
   void _checkWinner() {
-    if (player1Score >= widget.maxScore! && (player1Score - player2Score >= 2)) {
+    if (player1Score >= widget.maxScore! &&
+        (player1Score - player2Score >= 2)) {
       _showWinnerDialog(widget.player1Name);
-    } else if (player2Score >= widget.maxScore! && (player2Score - player1Score >= 2)) {
+    } else if (player2Score >= widget.maxScore! &&
+        (player2Score - player1Score >= 2)) {
       _showWinnerDialog(widget.player2Name);
     }
   }
@@ -125,35 +127,74 @@ class _ScoreScreenState extends State<ScoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: _incrementPlayer1Score,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue[200],
-                  border: const Border(
-                    right: BorderSide(width: 7, color: Colors.blue),
+      body: Stack(children: [
+        Column(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: _incrementPlayer1Score,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue[200],
+                    border: const Border(
+                      right: BorderSide(width: 7, color: Colors.blue),
+                    ),
+                  ),
+                  child: Center(
+                    child: RotatedBox(
+                      quarterTurns: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.player1Name,
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              '$player1Score',
+                              style: const TextStyle(
+                                fontSize: 72,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                child: Center(
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: _incrementPlayer2Score,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red[200],
+                    border: const Border(
+                      left: BorderSide(width: 7, color: Colors.red),
+                    ),
+                  ),
+                  child: Center(
+                    child: RotatedBox(
+                      quarterTurns: 1,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.player1Name,
+                            widget.player2Name,
                             style: const TextStyle(
-                              fontSize: 24,
+                              fontSize: 32,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
-                            '$player1Score',
+                            '$player2Score',
                             style: const TextStyle(
                               fontSize: 72,
                               fontWeight: FontWeight.w700,
@@ -166,59 +207,20 @@ class _ScoreScreenState extends State<ScoreScreen> {
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: _incrementPlayer2Score,
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red[200],
-                      border: const Border(
-                        left: BorderSide(width: 7, color: Colors.red),
-                      ),
-                    ),
-                    child: Center(
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.player2Name,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Text(
-                              '$player2Score',
-                              style: const TextStyle(
-                                fontSize: 72,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 16,
-                    right: 16,
-                    child: FloatingActionButton(
-                      mini: true,
-                      onPressed: _undoLastScore,
-                      child: const Icon(Icons.undo),
-                    ),
-                  ),
-                ],
-              ),
+          ],
+        ),
+        Align(
+          alignment: const Alignment(0.9, 0),
+          child: RotatedBox(
+            quarterTurns: 1,
+            child: FloatingActionButton(
+              mini: true,
+              onPressed: _undoLastScore,
+              child: const Icon(Icons.undo),
             ),
           ),
-        ],
-      ),
+        ),
+      ]),
     );
   }
 }
