@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ScoreScreen extends StatefulWidget {
   final String player1Name;
@@ -89,6 +90,22 @@ class _ScoreScreenState extends State<ScoreScreen> {
         });
   }
 
+  void _incrementPlayer1Score() {
+    HapticFeedback.lightImpact();
+    setState(() {
+      player1Score++;
+      _checkWinner();
+    });
+  }
+
+  void _incrementPlayer2Score() {
+    HapticFeedback.lightImpact();
+    setState(() {
+      player2Score++;
+      _checkWinner();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,12 +113,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
         children: [
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  player1Score++;
-                  _checkWinner();
-                });
-              },
+              onTap: _incrementPlayer1Score,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.blue[200],
@@ -141,12 +153,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  player2Score++;
-                  _checkWinner();
-                });
-              },
+              onTap: _incrementPlayer2Score,
               child: Container(
                 // color: Colors.red[200],
                 decoration: BoxDecoration(
