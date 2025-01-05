@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sock/screen/score_screen.dart';
 
@@ -20,7 +19,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
         _maxScoreController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please Enter both player names'),
+          content: Text('Please Enter both player names and Score'),
         ),
       );
     } else {

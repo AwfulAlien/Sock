@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,9 +23,9 @@ class _ScoreScreenState extends State<ScoreScreen> {
   List<List<int>> scoreHistory = [];
 
   void _checkWinner() {
-    if (player1Score >= widget.maxScore!) {
+    if (player1Score >= widget.maxScore! && (player1Score - player2Score >= 2)) {
       _showWinnerDialog(widget.player1Name);
-    } else if (player2Score >= widget.maxScore!) {
+    } else if (player2Score >= widget.maxScore! && (player2Score - player1Score >= 2)) {
       _showWinnerDialog(widget.player2Name);
     }
   }
