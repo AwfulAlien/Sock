@@ -52,27 +52,42 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
         title: const Text("Player Details"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _player1Controller,
-              decoration: const InputDecoration(labelText: 'Player 1 Name'),
+              decoration: const InputDecoration(
+                labelText: 'Player 1 Name',
+                border: OutlineInputBorder(),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: _player2Controller,
-              decoration: const InputDecoration(labelText: 'Player 2 Name'),
+              decoration: const InputDecoration(
+                labelText: 'Player 2 Name',
+                border: OutlineInputBorder(),
+              ),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: _maxScoreController,
-              decoration: const InputDecoration(labelText: 'Max Score'),
+              decoration: const InputDecoration(
+                labelText: 'Max Score',
+                border: OutlineInputBorder(),
+              ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 32),
             ElevatedButton(
               onPressed: _startMatch,
+              style: ElevatedButton.styleFrom(
+                // Improved button styling
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                textStyle: const TextStyle(fontSize: 18),
+              ),
               child: const Text('Start Match'),
             ),
           ],
