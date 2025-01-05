@@ -59,6 +59,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
           children: [
             TextField(
               controller: _player1Controller,
+              textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(
                 labelText: 'Player 1 Name',
                 border: OutlineInputBorder(),
@@ -67,6 +68,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: _player2Controller,
+              textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(
                 labelText: 'Player 2 Name',
                 border: OutlineInputBorder(),
@@ -75,6 +77,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: _maxScoreController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Max Score',
                 border: OutlineInputBorder(),
