@@ -21,6 +21,7 @@ class ScoreScreen extends StatefulWidget {
 class _ScoreScreenState extends State<ScoreScreen> {
   int player1Score = 0;
   int player2Score = 0;
+  List<List<int>> scoreHistory = [];
 
   void _checkWinner() {
     if (player1Score >= widget.maxScore!) {
@@ -92,6 +93,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
     HapticFeedback.lightImpact();
     setState(() {
       player1Score++;
+      _saveScoreToHistory();
       _checkWinner();
     });
   }
@@ -100,8 +102,24 @@ class _ScoreScreenState extends State<ScoreScreen> {
     HapticFeedback.lightImpact();
     setState(() {
       player2Score++;
+      _saveScoreToHistory();
       _checkWinner();
     });
+  }
+
+  void _saveScoreToHistory() {
+    scoreHistory.add([player1Score, player2Score]);
+  }
+
+  void _undoLastScore() {
+    if (scoreHistory.length > 1) {
+      scoreHistory.removeLast();
+      List<int> previousScore = scoreHistory.last;
+      setState(() {
+        player1Score = previousScore[0];
+        player2Score = previousScore[1];
+      });
+    }
   }
 
   @override
@@ -152,37 +170,50 @@ class _ScoreScreenState extends State<ScoreScreen> {
           Expanded(
             child: GestureDetector(
               onTap: _incrementPlayer2Score,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.red[200],
-                  border: const Border(
-                    left: BorderSide(width: 7, color: Colors.red),
-                  ),
-                ),
-                child: Center(
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.player2Name,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                          ),
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red[200],
+                      border: const Border(
+                        left: BorderSide(width: 7, color: Colors.red),
+                      ),
+                    ),
+                    child: Center(
+                      child: RotatedBox(
+                        quarterTurns: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.player2Name,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              '$player2Score',
+                              style: const TextStyle(
+                                fontSize: 72,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '$player2Score',
-                          style: const TextStyle(
-                            fontSize: 72,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: _undoLastScore,
+                      child: const Icon(Icons.undo),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
