@@ -79,6 +79,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           horizontal: 24,
                         ),
                         textStyle: const TextStyle(fontSize: 16),
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
                       ),
                       child: const Text('New Match'),
                     ),
