@@ -121,6 +121,12 @@ class _ScoreScreenState extends State<ScoreScreen> {
         player1Score = previousScore[0];
         player2Score = previousScore[1];
       });
+    } else if (scoreHistory.length == 1) {
+      setState(() {
+        scoreHistory.removeLast();
+        player1Score = 0;
+        player2Score = 0;
+      });
     }
   }
 

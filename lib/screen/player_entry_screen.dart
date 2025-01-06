@@ -44,6 +44,14 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
     }
   }
 
+  void _swapPlayerNames() {
+    setState(() {
+      final temp = _player1Controller.text;
+      _player1Controller.text = _player2Controller.text;
+      _player2Controller.text = temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +72,12 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 6),
+            IconButton(
+              onPressed: _swapPlayerNames,
+              icon: const Icon(Icons.swap_vert),
+            ),
+            const SizedBox(height: 6),
             TextField(
               controller: _player2Controller,
               textCapitalization: TextCapitalization.words,
