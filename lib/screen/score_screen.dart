@@ -220,7 +220,6 @@ class _ScoreScreenState extends State<ScoreScreen> {
           child: RotatedBox(
             quarterTurns: 1,
             child: FloatingActionButton(
-              mini: true,
               onPressed: _undoLastScore,
               child: const Icon(Icons.undo),
             ),
