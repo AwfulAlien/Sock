@@ -14,23 +14,21 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
   final _maxScoreController = TextEditingController();
 
   void _startMatch() {
-    if (_player1Controller.text.isEmpty &&
-        _player2Controller.text.isEmpty &&
+    int? maxScore = int.tryParse(_maxScoreController.text);
+    if (_player1Controller.text.isEmpty ||
+        _player2Controller.text.isEmpty ||
         _maxScoreController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please Enter both player names and Score'),
         ),
       );
+    } else if (maxScore == null || maxScore <= 0 || maxScore > 21) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Please enter a valid number for Max Score')),
+      );
     } else {
-      int? maxScore = int.tryParse(_maxScoreController.text);
-      if (maxScore == null || maxScore <= 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content:
-                  Text('Please enter a valid positive number for Max Score')),
-        );
-      }
       Navigator.push(
         context,
         MaterialPageRoute(
