@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sock/screen/match_history_screen.dart';
 import 'package:sock/screen/score_screen.dart';
 
 class PlayerEntryScreen extends StatefulWidget {
@@ -15,12 +16,12 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
 
   void _startMatch() {
     int? maxScore = int.tryParse(_maxScoreController.text);
-    if (_player1Controller.text.isEmpty ||
-        _player2Controller.text.isEmpty ||
-        _maxScoreController.text.isEmpty) {
+    if (_player1Controller.text.trim().isEmpty ||
+        _player2Controller.text.trim().isEmpty ||
+        _maxScoreController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please Enter both player names and Score'),
+          content: Text('Please enter both player names and score'),
         ),
       );
     } else if (maxScore == null || maxScore <= 0 || maxScore > 21) {
@@ -33,8 +34,8 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => ScoreScreen(
-            player1Name: _player1Controller.text,
-            player2Name: _player2Controller.text,
+            player1Name: _player1Controller.text.trim(),
+            player2Name: _player2Controller.text.trim(),
             maxScore: maxScore,
           ),
         ),
@@ -55,6 +56,39 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Player Details"),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                //TODO: Image
+              ),
+              child: const Text(
+                'Sock',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.history),
+              title: const Text('Match History'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MatchHistoryScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

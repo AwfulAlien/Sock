@@ -59,7 +59,9 @@ class _ScoreScreenState extends State<ScoreScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -115,8 +117,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
   }
 
   void _undoLastScore() {
+    HapticFeedback.heavyImpact();
     if (scoreHistory.length > 1) {
-      HapticFeedback.heavyImpact();
       scoreHistory.removeLast();
       List<int> previousScore = scoreHistory.last;
       setState(() {
