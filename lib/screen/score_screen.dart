@@ -21,6 +21,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
   int player1Score = 0;
   int player2Score = 0;
   List<List<int>> scoreHistory = [];
+  bool isButtonDisabled = true;
 
   void _checkWinner() {
     if (player1Score >= widget.maxScore! &&
@@ -94,6 +95,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
     HapticFeedback.lightImpact();
     setState(() {
       player1Score++;
+      isButtonDisabled = false;
       _saveScoreToHistory();
       _checkWinner();
     });
@@ -103,6 +105,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
     HapticFeedback.lightImpact();
     setState(() {
       player2Score++;
+      isButtonDisabled = false;
       _saveScoreToHistory();
       _checkWinner();
     });
@@ -122,12 +125,18 @@ class _ScoreScreenState extends State<ScoreScreen> {
         player2Score = previousScore[1];
       });
     } else if (scoreHistory.length == 1) {
-      setState(() {
-        scoreHistory.removeLast();
-        player1Score = 0;
-        player2Score = 0;
-      });
+      _resetScore();
     }
+  }
+
+  void _resetScore() {
+    HapticFeedback.heavyImpact();
+    setState(() {
+      scoreHistory.clear();
+      player1Score = 0;
+      player2Score = 0;
+      isButtonDisabled = true;
+    });
   }
 
   @override
@@ -220,8 +229,21 @@ class _ScoreScreenState extends State<ScoreScreen> {
           child: RotatedBox(
             quarterTurns: 1,
             child: FloatingActionButton(
-              onPressed: _undoLastScore,
-              child: const Icon(Icons.undo),
+              onPressed: isButtonDisabled ? null : _undoLastScore,
+              child: Icon(Icons.undo,
+                  color: isButtonDisabled ? Colors.grey : null),
+            ),
+          ),
+        ),
+        Align(
+          alignment: const Alignment(0.5, 0),
+          child: RotatedBox(
+            quarterTurns: 1,
+            child: FloatingActionButton(
+              mini: true,
+              onPressed: isButtonDisabled ? null : _resetScore,
+              child: Icon(Icons.settings_backup_restore,
+                  color: isButtonDisabled ? Colors.grey : null),
             ),
           ),
         ),
