@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class ScoreScreen extends StatefulWidget {
   final String player1Name;
@@ -26,6 +27,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    // screen always ON in this screen
+    WakelockPlus.enable();
   }
 
   @override
@@ -34,6 +37,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    // disable screen always ON while leaving this screen
+    WakelockPlus.disable();
     super.dispose();
   }
 
