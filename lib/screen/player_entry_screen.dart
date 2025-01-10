@@ -59,53 +59,55 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
         title: const Text("Player Details"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _player1Controller,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Player 1 Name',
-                border: OutlineInputBorder(),
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: _player1Controller,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Player 1 Name',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            IconButton(
-              onPressed: _swapPlayerNames,
-              icon: const Icon(Icons.swap_vert),
-            ),
-            const SizedBox(height: 6),
-            TextField(
-              controller: _player2Controller,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Player 2 Name',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 12),
+              IconButton(
+                onPressed: _swapPlayerNames,
+                icon: const Icon(Icons.swap_vert),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _maxScoreController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Max Score',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _player2Controller,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Player 2 Name',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _startMatch,
-              style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  textStyle: const TextStyle(fontSize: 18),
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white),
-              child: const Text('Start Match'),
-            ),
-          ],
+              const SizedBox(height: 24),
+              TextField(
+                controller: _maxScoreController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Max Score',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _startMatch,
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(fontSize: 18),
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white),
+                child: const Text('Start Match'),
+              ),
+            ],
+          ),
         ),
       ),
     );

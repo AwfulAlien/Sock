@@ -18,6 +18,25 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Set landscape orientation for this screen
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Reset to portrait when leaving this screen
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.dispose();
+  }
+
   int player1Score = 0;
   int player2Score = 0;
   List<List<int>> scoreHistory = [];
@@ -38,53 +57,50 @@ class _ScoreScreenState extends State<ScoreScreen> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return RotatedBox(
-            quarterTurns: 1,
-            child: Dialog(
-              shape: RoundedRectangleBorder(
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: Container(
+              padding: const EdgeInsets.all(24.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              child: Container(
-                padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Match Over!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Match Over!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    '$winnerName Wins!',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 24,
                       ),
+                      textStyle: const TextStyle(fontSize: 16),
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      '$winnerName Wins!',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 24,
-                        ),
-                        textStyle: const TextStyle(fontSize: 16),
-                      ),
-                      child: const Text('New Match'),
-                    ),
-                  ],
-                ),
+                    child: const Text('New Match'),
+                  ),
+                ],
               ),
             ),
           );
@@ -143,7 +159,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        Column(
+        Row(
           children: [
             Expanded(
               child: GestureDetector(
@@ -152,33 +168,30 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   decoration: BoxDecoration(
                     color: Colors.blue[200],
                     border: const Border(
-                      right: BorderSide(width: 7, color: Colors.blue),
+                      top: BorderSide(width: 7, color: Colors.blue),
                     ),
                   ),
                   child: Center(
-                    child: RotatedBox(
-                      quarterTurns: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.player1Name,
-                              style: const TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700,
-                              ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.player1Name,
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w700,
                             ),
-                            Text(
-                              '$player1Score',
-                              style: const TextStyle(
-                                fontSize: 72,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          ),
+                          Text(
+                            '$player1Score',
+                            style: const TextStyle(
+                              fontSize: 72,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -192,31 +205,28 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   decoration: BoxDecoration(
                     color: Colors.red[200],
                     border: const Border(
-                      left: BorderSide(width: 7, color: Colors.red),
+                      bottom: BorderSide(width: 7, color: Colors.red),
                     ),
                   ),
                   child: Center(
-                    child: RotatedBox(
-                      quarterTurns: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            widget.player2Name,
-                            style: const TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.player2Name,
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
                           ),
-                          Text(
-                            '$player2Score',
-                            style: const TextStyle(
-                              fontSize: 72,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        ),
+                        Text(
+                          '$player2Score',
+                          style: const TextStyle(
+                            fontSize: 72,
+                            fontWeight: FontWeight.w700,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -225,26 +235,20 @@ class _ScoreScreenState extends State<ScoreScreen> {
           ],
         ),
         Align(
-          alignment: const Alignment(0.9, 0),
-          child: RotatedBox(
-            quarterTurns: 1,
-            child: FloatingActionButton(
-              onPressed: isButtonDisabled ? null : _undoLastScore,
-              child: Icon(Icons.undo,
-                  color: isButtonDisabled ? Colors.grey : null),
-            ),
+          alignment: const Alignment(0, -0.9),
+          child: FloatingActionButton(
+            onPressed: isButtonDisabled ? null : _undoLastScore,
+            child:
+                Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
           ),
         ),
         Align(
-          alignment: const Alignment(0.5, 0),
-          child: RotatedBox(
-            quarterTurns: 1,
-            child: FloatingActionButton(
-              mini: true,
-              onPressed: isButtonDisabled ? null : _resetScore,
-              child: Icon(Icons.settings_backup_restore,
-                  color: isButtonDisabled ? Colors.grey : null),
-            ),
+          alignment: const Alignment(0, -0.4),
+          child: FloatingActionButton(
+            mini: true,
+            onPressed: isButtonDisabled ? null : _resetScore,
+            child: Icon(Icons.settings_backup_restore,
+                color: isButtonDisabled ? Colors.grey : null),
           ),
         ),
       ]),
