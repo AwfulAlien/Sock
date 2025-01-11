@@ -151,13 +151,36 @@ class _ScoreScreenState extends State<ScoreScreen> {
   }
 
   void _resetScore() {
-    HapticFeedback.heavyImpact();
-    setState(() {
-      scoreHistory.clear();
-      player1Score = 0;
-      player2Score = 0;
-      isButtonDisabled = true;
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Reset Score'),
+          content: const Text('Are you sure you want to reset the score?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Reset'),
+              onPressed: () {
+                HapticFeedback.heavyImpact();
+                setState(() {
+                  scoreHistory.clear();
+                  player1Score = 0;
+                  player2Score = 0;
+                  isButtonDisabled = true;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
