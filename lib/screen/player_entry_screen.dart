@@ -57,39 +57,6 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
       appBar: AppBar(
         title: const Text("Player Details"),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                //TODO: Image
-              ),
-              child: const Text(
-                'Sock',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: const Text('Match History'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MatchHistoryScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
