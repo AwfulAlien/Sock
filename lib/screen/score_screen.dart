@@ -137,8 +137,8 @@ class _ScoreScreenState extends State<ScoreScreen> {
   }
 
   void _undoLastScore() {
+    HapticFeedback.heavyImpact();
     if (scoreHistory.length > 1) {
-      HapticFeedback.heavyImpact();
       scoreHistory.removeLast();
       List<int> previousScore = scoreHistory.last;
       setState(() {

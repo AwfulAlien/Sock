@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sock/screen/match_history_screen.dart';
 import 'package:sock/screen/score_screen.dart';
 
 class PlayerEntryScreen extends StatefulWidget {
@@ -11,33 +12,25 @@ class PlayerEntryScreen extends StatefulWidget {
 class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
   final _player1Controller = TextEditingController();
   final _player2Controller = TextEditingController();
-  final _maxScoreController = TextEditingController();
+  int? _maxScore;
 
   void _startMatch() {
-    if (_player1Controller.text.isEmpty &&
-        _player2Controller.text.isEmpty &&
-        _maxScoreController.text.isEmpty) {
+    if (_player1Controller.text.trim().isEmpty ||
+        _player2Controller.text.trim().isEmpty ||
+        _maxScore == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please Enter both player names and Score'),
+          content: Text('Please enter both player names and score'),
         ),
       );
     } else {
-      int? maxScore = int.tryParse(_maxScoreController.text);
-      if (maxScore == null || maxScore <= 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content:
-                  Text('Please enter a valid positive number for Max Score')),
-        );
-      }
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ScoreScreen(
-            player1Name: _player1Controller.text,
-            player2Name: _player2Controller.text,
-            maxScore: maxScore,
+            player1Name: _player1Controller.text.trim(),
+            player2Name: _player2Controller.text.trim(),
+            maxScore: _maxScore,
           ),
         ),
       );
@@ -88,15 +81,32 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              TextField(
-                controller: _maxScoreController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Max Score',
-                  border: OutlineInputBorder(),
-                ),
+              SizedBox(
+                height: 180,
+                child: DropdownButtonFormField<int>(
+                    decoration: const InputDecoration(
+                      labelText: 'Max Score',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: _maxScore,
+                    items: const [
+                      DropdownMenuItem(
+                        value: 11,
+                        child: Text('11'),
+                      ),
+                      DropdownMenuItem(
+                        value: 21,
+                        child: Text('21'),
+                      ),
+                    ],
+                    isExpanded: true,
+                    onChanged: (int? newValue) {
+                      setState(() {
+                        _maxScore = newValue;
+                      });
+                    }),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: _startMatch,
                 style: ElevatedButton.styleFrom(
