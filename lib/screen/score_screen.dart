@@ -19,6 +19,8 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
+  bool _isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -82,7 +84,9 @@ class _ScoreScreenState extends State<ScoreScreen> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -267,7 +271,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
           child: FloatingActionButton(
             onPressed: isButtonDisabled ? null : _undoLastScore,
             child:
-                Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
+            Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
           ),
         ),
         Align(
@@ -278,6 +282,48 @@ class _ScoreScreenState extends State<ScoreScreen> {
             child: Icon(Icons.settings_backup_restore,
                 color: isButtonDisabled ? Colors.grey : null),
           ),
+        ),
+        Align(
+          alignment: const Alignment(0, 0.8),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              width: _isExpanded ? 300 : 100,
+              height: _isExpanded ? 100 : 40,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(_isExpanded ? 30 : 20),
+                  topRight: Radius.circular(_isExpanded ? 30 : 20),
+                  bottomLeft: Radius.circular(_isExpanded ? 30 : 20),
+                  bottomRight: Radius.circular(_isExpanded ? 30 : 20),
+                ),
+              ),
+            ),
+          ),
+          // child: Container(
+          //   width: 100,
+          //   height: 40,
+          //   decoration: const BoxDecoration(
+          //     color: Colors.black87,
+          //     borderRadius: BorderRadius.only(
+          //         topLeft: Radius.circular(20),
+          //         topRight: Radius.circular(20),
+          //         bottomLeft: Radius.circular(20),
+          //         bottomRight: Radius.circular(20)),
+          //   ),
+          //   child: const Row(
+          //     children: [
+          //
+          //     ],
+          //   ),
+          // ),
         ),
       ]),
     );
