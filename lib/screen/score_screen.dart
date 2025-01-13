@@ -84,9 +84,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: Theme
-                          .of(context)
-                          .primaryColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -271,7 +269,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
           child: FloatingActionButton(
             onPressed: isButtonDisabled ? null : _undoLastScore,
             child:
-            Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
+                Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
           ),
         ),
         Align(
@@ -297,7 +295,15 @@ class _ScoreScreenState extends State<ScoreScreen> {
               width: _isExpanded ? 300 : 100,
               height: _isExpanded ? 100 : 40,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.white70,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    offset: Offset(0, 2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                ],
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(_isExpanded ? 30 : 20),
                   topRight: Radius.circular(_isExpanded ? 30 : 20),
