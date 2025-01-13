@@ -311,25 +311,22 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   bottomRight: Radius.circular(_isExpanded ? 30 : 20),
                 ),
               ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(3, (index) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    width: _isExpanded ? 16 : 8,
+                    height: _isExpanded ? 16 : 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.black45,
+                      shape: BoxShape.circle,
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
-          // child: Container(
-          //   width: 100,
-          //   height: 40,
-          //   decoration: const BoxDecoration(
-          //     color: Colors.black87,
-          //     borderRadius: BorderRadius.only(
-          //         topLeft: Radius.circular(20),
-          //         topRight: Radius.circular(20),
-          //         bottomLeft: Radius.circular(20),
-          //         bottomRight: Radius.circular(20)),
-          //   ),
-          //   child: const Row(
-          //     children: [
-          //
-          //     ],
-          //   ),
-          // ),
         ),
       ]),
     );
