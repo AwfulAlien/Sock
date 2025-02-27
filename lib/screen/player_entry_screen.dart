@@ -14,7 +14,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
   final _player2Controller = TextEditingController();
   int? _maxScore;
 
-  void _startMatch() {
+  void _startMatch(bool is3Set) {
     if (_player1Controller.text.trim().isEmpty ||
         _player2Controller.text.trim().isEmpty ||
         _maxScore == null) {
@@ -31,6 +31,7 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
             player1Name: _player1Controller.text.trim(),
             player2Name: _player2Controller.text.trim(),
             maxScore: _maxScore,
+            is3Set: is3Set,
           ),
         ),
       );
@@ -108,13 +109,23 @@ class _PlayerEntryScreenState extends State<PlayerEntryScreen> {
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: _startMatch,
+                onPressed: () => _startMatch(false),
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     textStyle: const TextStyle(fontSize: 18),
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white),
-                child: const Text('Start Match'),
+                child: const Text('Quick Match'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () => _startMatch(true),
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: const TextStyle(fontSize: 18),
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white),
+                child: const Text('Start 3 Set'),
               ),
             ],
           ),

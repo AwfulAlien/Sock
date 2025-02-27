@@ -6,13 +6,14 @@ class ScoreScreen extends StatefulWidget {
   final String player1Name;
   final String player2Name;
   final int? maxScore;
+  final bool is3Set;
 
-  const ScoreScreen({
-    super.key,
-    required this.player1Name,
-    required this.player2Name,
-    required this.maxScore,
-  });
+  const ScoreScreen(
+      {super.key,
+      required this.player1Name,
+      required this.player2Name,
+      required this.maxScore,
+      required this.is3Set});
 
   @override
   State<ScoreScreen> createState() => _ScoreScreenState();
@@ -188,34 +189,70 @@ class _ScoreScreenState extends State<ScoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Row(
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: _incrementPlayer1Score,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue[200],
-                    border: const Border(
-                      top: BorderSide(width: 7, color: Colors.blue),
+      body: Stack(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: _incrementPlayer1Score,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue[200],
+                      border: const Border(
+                        top: BorderSide(width: 7, color: Colors.blue),
+                      ),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.player1Name,
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              '$player1Score',
+                              style: const TextStyle(
+                                fontSize: 72,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                ),
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: _incrementPlayer2Score,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red[200],
+                      border: const Border(
+                        bottom: BorderSide(width: 7, color: Colors.red),
+                      ),
+                    ),
+                    child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.player1Name,
+                            widget.player2Name,
                             style: const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
-                            '$player1Score',
+                            '$player2Score',
                             style: const TextStyle(
                               fontSize: 72,
                               fontWeight: FontWeight.w700,
@@ -227,108 +264,76 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   ),
                 ),
               ),
+            ],
+          ),
+          Align(
+            alignment: const Alignment(0, -0.9),
+            child: FloatingActionButton(
+              onPressed: isButtonDisabled ? null : _undoLastScore,
+              child: Icon(Icons.undo,
+                  color: isButtonDisabled ? Colors.grey : null),
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: _incrementPlayer2Score,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red[200],
-                    border: const Border(
-                      bottom: BorderSide(width: 7, color: Colors.red),
-                    ),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.player2Name,
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
+          ),
+          Align(
+            alignment: const Alignment(0, -0.4),
+            child: FloatingActionButton(
+              mini: true,
+              onPressed: isButtonDisabled ? null : _resetScore,
+              child: Icon(Icons.settings_backup_restore,
+                  color: isButtonDisabled ? Colors.grey : null),
+            ),
+          ),
+          widget.is3Set
+              ? Align(
+                  alignment: const Alignment(0, 0.8),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isExpanded = !_isExpanded;
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      width: _isExpanded ? 300 : 100,
+                      height: _isExpanded ? 100 : 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            offset: Offset(0, 2),
+                            blurRadius: 4,
+                            spreadRadius: 0,
                           ),
+                        ],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(_isExpanded ? 30 : 20),
+                          topRight: Radius.circular(_isExpanded ? 30 : 20),
+                          bottomLeft: Radius.circular(_isExpanded ? 30 : 20),
+                          bottomRight: Radius.circular(_isExpanded ? 30 : 20),
                         ),
-                        Text(
-                          '$player2Score',
-                          style: const TextStyle(
-                            fontSize: 72,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(3, (index) {
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            width: _isExpanded ? 16 : 8,
+                            height: _isExpanded ? 16 : 8,
+                            decoration: const BoxDecoration(
+                              color: Colors.black45,
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                        }),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Align(
-          alignment: const Alignment(0, -0.9),
-          child: FloatingActionButton(
-            onPressed: isButtonDisabled ? null : _undoLastScore,
-            child:
-                Icon(Icons.undo, color: isButtonDisabled ? Colors.grey : null),
-          ),
-        ),
-        Align(
-          alignment: const Alignment(0, -0.4),
-          child: FloatingActionButton(
-            mini: true,
-            onPressed: isButtonDisabled ? null : _resetScore,
-            child: Icon(Icons.settings_backup_restore,
-                color: isButtonDisabled ? Colors.grey : null),
-          ),
-        ),
-        Align(
-          alignment: const Alignment(0, 0.8),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              width: _isExpanded ? 300 : 100,
-              height: _isExpanded ? 100 : 40,
-              decoration: BoxDecoration(
-                color: Colors.white70,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                    spreadRadius: 0,
-                  ),
-                ],
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(_isExpanded ? 30 : 20),
-                  topRight: Radius.circular(_isExpanded ? 30 : 20),
-                  bottomLeft: Radius.circular(_isExpanded ? 30 : 20),
-                  bottomRight: Radius.circular(_isExpanded ? 30 : 20),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(3, (index) {
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: _isExpanded ? 16 : 8,
-                    height: _isExpanded ? 16 : 8,
-                    decoration: const BoxDecoration(
-                      color: Colors.black45,
-                      shape: BoxShape.circle,
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ),
-        ),
-      ]),
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }
