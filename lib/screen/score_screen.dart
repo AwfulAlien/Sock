@@ -98,20 +98,35 @@ class _ScoreScreenState extends State<ScoreScreen> {
                     style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 24,
-                      ),
-                      textStyle: const TextStyle(fontSize: 16),
-                    ),
-                    child: const Text('New Match'),
-                  ),
+                  widget.is3Set
+                      ? ElevatedButton(
+                          onPressed: () {
+                            _swapPlayers();
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 24,
+                            ),
+                            textStyle: const TextStyle(fontSize: 16),
+                          ),
+                          child: const Text('New Match'),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 24,
+                            ),
+                            textStyle: const TextStyle(fontSize: 16),
+                          ),
+                          child: const Text('New Match'),
+                        ),
                 ],
               ),
             ),
@@ -192,6 +207,9 @@ class _ScoreScreenState extends State<ScoreScreen> {
 
   void _swapPlayers() {
     setState(() {
+      scoreHistory.clear();
+      player1Score = 0;
+      player2Score = 0;
       String tempPlayerName = _player1Name;
       _player1Name = _player2Name;
       _player2Name = tempPlayerName;
