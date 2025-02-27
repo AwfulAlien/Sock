@@ -23,6 +23,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
   late String _player1Name;
   late String _player2Name;
   bool _isExpanded = false;
+  bool isBlue = true;
 
   @override
   void initState() {
@@ -213,6 +214,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
       String tempPlayerName = _player1Name;
       _player1Name = _player2Name;
       _player2Name = tempPlayerName;
+      isBlue = !isBlue;
     });
   }
 
@@ -228,7 +230,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   onTap: _incrementPlayer1Score,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.blue[200],
+                      color: isBlue ? Colors.blue[200] : Colors.red[200],
                       border: const Border(
                         top: BorderSide(width: 7, color: Colors.blue),
                       ),
@@ -265,7 +267,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   onTap: _incrementPlayer2Score,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.red[200],
+                      color: !isBlue ? Colors.blue[200] : Colors.red[200],
                       border: const Border(
                         bottom: BorderSide(width: 7, color: Colors.red),
                       ),
