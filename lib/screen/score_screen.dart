@@ -20,11 +20,15 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
+  late String _player1Name;
+  late String _player2Name;
   bool _isExpanded = false;
 
   @override
   void initState() {
     super.initState();
+    _player1Name = widget.player1Name;
+    _player2Name = widget.player2Name;
     // Set landscape orientation for this screen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -53,10 +57,10 @@ class _ScoreScreenState extends State<ScoreScreen> {
   void _checkWinner() {
     if (player1Score >= widget.maxScore! &&
         (player1Score - player2Score >= 2)) {
-      _showWinnerDialog(widget.player1Name);
+      _showWinnerDialog(_player1Name);
     } else if (player2Score >= widget.maxScore! &&
         (player2Score - player1Score >= 2)) {
-      _showWinnerDialog(widget.player2Name);
+      _showWinnerDialog(_player2Name);
     }
   }
 
@@ -186,6 +190,14 @@ class _ScoreScreenState extends State<ScoreScreen> {
     );
   }
 
+  void _swapPlayers() {
+    setState(() {
+      String tempPlayerName = _player1Name;
+      _player1Name = _player2Name;
+      _player2Name = tempPlayerName;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -210,7 +222,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.player1Name,
+                              _player1Name,
                               style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.w700,
@@ -245,7 +257,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.player2Name,
+                            _player2Name,
                             style: const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.w700,
@@ -283,6 +295,15 @@ class _ScoreScreenState extends State<ScoreScreen> {
                   color: isButtonDisabled ? Colors.grey : null),
             ),
           ),
+          // Align(
+          //   alignment: const Alignment(0, -0.1),
+          //   child: FloatingActionButton(
+          //     mini: true,
+          //     onPressed: isButtonDisabled ? null : _swapPlayers,
+          //     child: Icon(Icons.swap_horiz,
+          //         color: isButtonDisabled ? Colors.grey : null),
+          //   ),
+          // ),
           widget.is3Set
               ? Align(
                   alignment: const Alignment(0, 0.8),
